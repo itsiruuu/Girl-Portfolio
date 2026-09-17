@@ -1,10 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import irinAkterImage from "./assets/irin-akter.png";
+import irinAkterImage from "../assets/irin-akter.png";
+import Navbar from "../components/Navbar";
+import Banner from "../components/Banner";
+import AboutSection from "../components/About";
+import ServicesSection from "../components/Services";
+import Work from "../components/Work";
+import JourneySection from "../components/Journey";
+import ContactSection from "../components/Contact";
+import FooterSection from "../components/Footer";
 
 /* ── Reveal hook ─────────────────────────────── */
 function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>(".reveal");
+    const els = document.querySelectorAll(".reveal");
     const io = new IntersectionObserver(
       (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
       { threshold: 0.12 }
@@ -16,12 +24,12 @@ function useReveal() {
 
 /* ── Cursor dot ──────────────────────────────── */
 function CursorDot() {
-  const dotRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef(null);
   useEffect(() => {
     let lastParticleAt = 0;
     const particleSymbols = ["</>", "{}", "*", "+", "//", "<>" ];
 
-    const addParticle = (x: number, y: number) => {
+    const addParticle = (x, y) => {
       const particle = document.createElement("span");
       const angle = Math.random() * Math.PI * 2;
       const distance = 18 + Math.random() * 28;
@@ -36,7 +44,7 @@ function CursorDot() {
       document.body.appendChild(particle);
     };
 
-    const move = (e: MouseEvent) => {
+    const move = (e) => {
       if (dotRef.current) {
         dotRef.current.style.left = `${e.clientX}px`;
         dotRef.current.style.top = `${e.clientY}px`;
@@ -83,7 +91,6 @@ function Nav() {
         <a href="#hero" className="font-display font-semibold text-lg tracking-wide"
           style={{ color: "#1e0a2e" }}>
           <span className="text-gradient">Irin Akter</span>
-          <span style={{ color: "#c4aed8" }}> · dev</span>
         </a>
 
         {/* Desktop links */}
@@ -232,7 +239,7 @@ function Hero() {
 /* ── Ticker ──────────────────────────────────── */
 const TICKER_ITEMS = [
   "React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion",
-  "Figma", "GraphQL", "Supabase", "Node.js", "Vitest", "Storybook", "D3.js",
+  "Design Tools", "GraphQL", "Supabase", "Node.js", "Vitest", "Storybook", "D3.js",
 ];
 
 function Ticker() {
@@ -395,12 +402,12 @@ function Services() {
                 transitionDelay: `${i * 60}ms`,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = `0 20px 60px ${s.color}22`;
-                (e.currentTarget as HTMLElement).style.borderColor = `${s.color}55`;
+                e.currentTarget.style.boxShadow = `0 20px 60px ${s.color}22`;
+                e.currentTarget.style.borderColor = `${s.color}55`;
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(240,214,239,0.8)";
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.borderColor = "rgba(240,214,239,0.8)";
               }}>
               <div className="text-3xl mb-5 transition-transform duration-300 group-hover:scale-110 inline-block"
                 style={{ color: s.color }}>
@@ -422,7 +429,7 @@ const STACK = [
   { cat: "Styling", items: ["Tailwind CSS v4", "CSS Modules", "Framer Motion", "Radix UI"] },
   { cat: "Data", items: ["GraphQL", "React Query", "Zustand", "Supabase"] },
   { cat: "Testing", items: ["Vitest", "Testing Library", "Playwright", "Storybook"] },
-  { cat: "Tooling", items: ["Figma", "Docker", "Vercel", "GitHub Actions"] },
+  { cat: "Tooling", items: ["Design Tools", "Docker", "Vercel", "GitHub Actions"] },
 ];
 
 function Stack() {
@@ -646,7 +653,7 @@ function CaseStudies() {
 const PROCESS = [
   { step: "01", title: "Discover", desc: "Deep dive into user needs, business goals, and technical constraints before touching a single component." },
   { step: "02", title: "Architect", desc: "Design the component tree, data flow, and state model. Agree on API contracts between design and engineering." },
-  { step: "03", title: "Prototype", desc: "Build interactive prototypes in Figma and code stubs fast. Validate with real users before full build-out." },
+  { step: "03", title: "Prototype", desc: "Build interactive prototypes and code stubs fast. Validate with real users before full build-out." },
   { step: "04", title: "Engineer", desc: "Write tested, typed, accessible code. Iterate in short cycles with continuous integration and deploy previews." },
   { step: "05", title: "Polish", desc: "Motion design, micro-interactions, edge cases, performance. The final 10% that makes the product feel alive." },
   { step: "06", title: "Ship & Learn", desc: "Monitor, measure, and iterate. A launch is the start of a feedback loop, not the finish line." },
@@ -672,8 +679,8 @@ function HowIBuild() {
                 border: "1px solid rgba(240,214,239,0.8)",
                 transitionDelay: `${i * 60}ms`,
               }}
-              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.boxShadow = "0 16px 48px rgba(217,70,168,0.1)"}
-              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.boxShadow = "none"}>
+              onMouseEnter={(e) => e.currentTarget.style.boxShadow = "0 16px 48px rgba(217,70,168,0.1)"}
+              onMouseLeave={(e) => e.currentTarget.style.boxShadow = "none"}>
               <div className="font-mono text-4xl font-bold mb-4 text-gradient">{p.step}</div>
               <h3 className="font-display font-semibold text-xl mb-3" style={{ color: "#1e0a2e" }}>{p.title}</h3>
               <p className="font-sans text-sm" style={{ color: "#9d84b7", lineHeight: 1.75 }}>{p.desc}</p>
@@ -780,8 +787,8 @@ function Philosophy() {
                 border: "1px solid rgba(255,255,255,0.07)",
                 transitionDelay: `${i * 80}ms`,
               }}
-              onMouseEnter={(e) => (e.currentTarget as HTMLElement).style.borderColor = "rgba(217,70,168,0.35)"}
-              onMouseLeave={(e) => (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.07)"}>
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = "rgba(217,70,168,0.35)"}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)"}>
               <div className="text-3xl mb-5 text-gradient">{pr.icon}</div>
               <h3 className="font-display font-semibold text-2xl mb-3" style={{ color: "#fdf2fb" }}>{pr.title}</h3>
               <p className="font-sans text-base" style={{ color: "#9d84b7", lineHeight: 1.8 }}>{pr.desc}</p>
@@ -798,10 +805,10 @@ function Contact() {
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", project: "", message: "" });
 
-  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  const set = (k) => (e) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
-  const handle = (e: React.FormEvent) => { e.preventDefault(); setSent(true); };
+  const handle = (e) => { e.preventDefault(); setSent(true); };
 
   const inputStyle = {
     background: "#fff",
@@ -908,7 +915,6 @@ function Footer() {
           <div>
             <div className="font-display font-bold text-3xl mb-2">
               <span className="text-gradient">Irin Akter</span>
-              <span style={{ color: "#4a1d6e" }}> · dev</span>
             </div>
             <p className="font-sans text-sm" style={{ color: "#4a1d6e" }}>
               Frontend engineer · Dubai, UAE
@@ -950,25 +956,25 @@ function Footer() {
 }
 
 /* ── App ─────────────────────────────────────── */
-export default function App() {
+export default function Home() {
   useReveal();
 
   return (
     <div style={{ background: "#fef7ff" }}>
       <CursorDot />
-      <Nav />
-      <Hero />
+      <Navbar />
+      <Banner />
       <Ticker />
-      <About />
-      <Services />
+      <AboutSection />
+      <ServicesSection />
       <Stack />
-      <Projects />
+      <Work />
       <CaseStudies />
       <HowIBuild />
-      <Journey />
+      <JourneySection />
       <Philosophy />
-      <Contact />
-      <Footer />
+      <ContactSection />
+      <FooterSection />
     </div>
   );
 }
